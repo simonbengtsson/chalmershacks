@@ -11,3 +11,6 @@ for those courses will be fetched from TimeEdit.
 ### Deploy
 
 ### Contribute
+
+### Progress
+Will be able to use _trust request. Maybe I have to use previous request to generate the Signature, but otherwise should be fine!

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!--<link rel="icon" type="image/png" href="favicon.png">-->
+    <link href="http://eventcal.flown.io/appicon.png" rel="icon" sizes="192x192"/>
+    <title>Chalmers Calendar</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description"
+          content="Enables Chalmers students to easily subscribe to their course schedules in for example Google Calendar">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            padding: 10px 20px;
+            font-family: Optima, Segoe, "Segoe UI", Candara, Calibri, Arial, sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+            font-family: Optima, Segoe, "Segoe UI", Candara, Calibri, Arial, sans-serif;
+            font-size: 28px;
+            margin-bottom: 0;
+            color: #333;
+        }
+
+        h1 img {
+            width: 50px;
+            padding-bottom: 10px;
+            padding-right: 10px;
+            vertical-align: middle;
+        }
+
+        .sub-header {
+            margin-top: 0;
+            font-weight: bold;
+            font-size: 16px;
+            color: #999;
+            text-align: center;
+            font-style: italic;
+        }
+
+        .container {
+            max-width: 700px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .main-desc {
+            text-align: center;
+            margin: 10px 50px 40px 50px;
+        }
+
+        .help-block {
+            color: #888;
+            margin-top: 4px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        input, textarea {
+            border: 2px black solid;
+            border-radius: 2px;
+            font-size: 12px;
+            width: 100%;
+            margin-top: 7px;
+            font-style: italic;
+            padding: 5px 10px;
+            line-height: 30px;
+            outline: 0;
+        }
+
+        input:read-only {
+            background: #eee;
+            cursor: text;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+
+        a:hover {
+            color: #777;
+        }
+
+        .open-source-desc {
+            text-align: center;
+            margin: 30px;
+        }
+
+        .open-source-desc .github-badge {
+            display: block;
+            width: 60px;
+            height: 25px;
+            margin: 10px auto;
+        }
+
+        @media(max-width: 500px) {
+            h1 {
+                font-size: 22px;
+            }
+
+            .main-desc {
+                margin-right: 0;
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <h1><img src="http://eventcal.flown.io/appicon.png">Chalmers Calendar</h1>
+
+    <p class="sub-header">Enables Chalmers students to easily subscribe to their course schedules</p>
+
+    <p class="main-desc">
+        A calendar generated below will automatically updated with your registered courses. Let me know if something
+        does not work correctly on <a href="https://google.com/+simonbengtsson">Google+</a> or
+        <a href="https://twitter.com/someatoms">Twitter</a>.
+    </p>
+
+    <form id="calendar-form">
+        <label for="cid">Chalmers login</label><br>
+        <input id="cid" placeholder="CID">
+        <input type="password" id="password" placeholder="Password">
+        <p class="help-block">Your credentials will be stored in the url so keep it safe!</p>
+    </form>
+
+    <label for="filtered-calendar">Calendar</label><br>
+    <input id="filtered-calendar" readonly>
+
+    <p class="help-block">Subscribe to this calendar in Google Calendar or a similar application.
+        It will be updated with the schedules of your registered courses</p>
+
+    <section class="current-courses">
+        <p>The calendar currently contains schedules for the following courses</p>
+        <ul>
+            <li>TDA532 Graphical interfaces</li>
+            <li>TDA233 Prototyping</li>
+        </ul>
+    </section>
+
+    <p class="open-source-desc">
+        If you have a feature request or have found a bug you can post an issue on
+        <a href="http://github.com/someatoms/eventcal">Github</a>.
+        <iframe class="github-badge"
+                src="https://ghbtns.com/github-btn.html?user=someatoms&repo=eventcal&type=star&count=false"
+                frameborder="0"
+                scrolling="0"></iframe>
+    </p>
+
+</div>
+
+</body>
+</html>
