@@ -16,8 +16,10 @@ module.exports = {
     },
     load: function (hash) {
         var data = readFile()[hash];
-        data.password = decrypt(data.password);
-        return data;
+        if (data) {
+            data.password = decrypt(data.password);
+        }
+        return data || null;
     }
 };
 

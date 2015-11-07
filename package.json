@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
+    "deploy": "rsync -a . root@flown.io:~/sites/chalmershacks.flown.io && ssh root@flown.io 'pm2 restart ~/sites/chalmershacks.flown.io/index.js --name chalmershacks'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Simon Bengtsson",

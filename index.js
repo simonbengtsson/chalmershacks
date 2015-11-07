@@ -3,10 +3,11 @@ var app = express();
 var StudentPortal = require('./app/ChalmersStudentPortal.js');
 var TimeEdit = require('./app/TimeEdit.js');
 var Storage = require('./app/Storage.js');
+var env = require('./env.json');
 
 app.get('/schedule/obtain', function (req, res) {
     var cid = req.query.user;
-    var passBase64 = req.query.password;
+    var passBase64 = req.query.password || '';
     var pass = new Buffer(passBase64, 'base64').toString();
 
     var registeredCourses;
@@ -30,6 +31,10 @@ app.get('/schedule/:hash/:filename*?', function (req, res) {
     var hash = req.params.hash || '';
     var credentials = Storage.load(hash);
 
+    if (!credentials) {
+        return res.status(400).send({message: "Schedule with the specified hash does not exist"});
+    }
+
     StudentPortal.login(credentials.username, credentials.password).then(function (cookies) {
         return StudentPortal.getCurrentCourses(cookies);
     }).then(function (courses) {
@@ -44,10 +49,8 @@ app.get('/schedule/:hash/:filename*?', function (req, res) {
     });
 });
 
-app.use(express.static('./public'));
-
 app.use(function(req, res) {
     res.status(404).send('<h1 style="text-align:center; margin-top: 50px;">404 Not found :(</h1>');
 });
 
-app.listen('8081');
+app.listen(env.port);
