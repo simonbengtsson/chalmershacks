@@ -1,16 +1,30 @@
+var fs = require('fs');
 var request = require('request');
 var TEScramble = require('./TimeEditScrambler.js');
 
 module.exports = {
-    getSchedule: function (courses) {
+    getSchedule: function (courses, format) {
+        if (!courses.length) {
+            return Promise.reject('No registered courses');
+        }
         var proms = [];
         for (var i = 0; i < courses.length; i++) {
             var code = courses[i]['Course'];
             proms.push(getTimeEditObjectId(code));
         }
         return Promise.all(proms).then(function (objectIds) {
-            var schedule = TEScramble.objectToUrl(objectIds);
-            return Promise.resolve(schedule);
+            var link = TEScramble.objectToUrl(objectIds, format);
+            return Promise.resolve(link);
+        }).then(function (link) {
+            return new Promise(function (resolve, reject) {
+                request.get(link, function (error, response, ics) {
+                    if (error) {
+                        reject(error);
+                    } else {
+                        resolve(ics);
+                    }
+                });
+            });
         });
     }
 };

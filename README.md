@@ -9,6 +9,7 @@ First the student's current registered courses will be fetched from the student 
 for those courses will be fetched from TimeEdit.
 
 ### Deploy
+`rsync -a . root@flown.io:~/sites/chalmershacks.flown.io`
 
 ### Contribute
 

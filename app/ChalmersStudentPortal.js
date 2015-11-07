@@ -5,13 +5,17 @@ var loginUrl = 'https://idp.chalmers.se/adfs/ls/?wa=wsignin1.0&wtrealm=urn%3acha
 
 module.exports = {
     login: function (cid, pass) {
+        if (!cid || !pass) {
+            return Promise.reject("No login parameters set");
+        }
+
         var cookieStr = '';
-        return getLoginFormData().then(function (str) {
+        return getLoginFormData().then(function (formData) {
             // Cid and pass should not be url encoded (can't use data object, has to use string)
-            str += 'ctl00$ContentPlaceHolder1$UsernameTextBox=' + cid;
-            str += '&ctl00$ContentPlaceHolder1$PasswordTextBox=' + pass;
-            str += '&ctl00%24ContentPlaceHolder1%24SubmitButton=' + 'Sign+In';
-            return getLoginCookies(str);
+            formData += 'ctl00$ContentPlaceHolder1$UsernameTextBox=' + cid;
+            formData += '&ctl00$ContentPlaceHolder1$PasswordTextBox=' + pass;
+            formData += '&ctl00%24ContentPlaceHolder1%24SubmitButton=' + 'Sign+In';
+            return getLoginCookies(formData);
         }).then(function (cookies) {
             cookieStr = parseCookies(cookies);
             return getLoginFormData(cookieStr);
@@ -20,6 +24,7 @@ module.exports = {
         }, function(error) {
             console.log('Login failed');
             console.log(error);
+            return Promise.reject(error);
         });
     },
     getCurrentCourses: function (authCookies) {
@@ -51,6 +56,7 @@ module.exports = {
                             rows.push(row);
                         }
                     });
+
                     resolve(rows);
                 }
             });
@@ -96,10 +102,13 @@ function getLoginCookies(formData) {
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         };
         request.post(options, function (error, response) {
+            var cookies = response.headers['set-cookie'];
             if (error) {
                 reject(error);
+            } else if (!cookies) {
+                reject("Login failed");
             } else {
-                resolve(response.headers['set-cookie']);
+                resolve(cookies);
             }
         });
     });

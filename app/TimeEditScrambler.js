@@ -1,3 +1,37 @@
+module.exports = {
+
+    /**
+     * Converts course codes into a url that can be used to fetch a schedule
+     */
+    objectToUrl: function (objectIds, format) {
+        var urls = ["https://se.timeedit.net/web/chalmers/db1/public/ri." + (format || 'ics')];
+
+        // 1th of jan +- two years should be good enough
+        var currentYear = new Date().getFullYear();
+        var start = (currentYear - 2) + '0101';
+        var end = (currentYear + 2) + '0101';
+
+        var keyValues = ["h=t", "sid=3", "p=" + start + '%2C' + end, "ox=0", "types=0", "fe=0"];
+
+        var objects = 'objects=' + objectIds.join();
+        keyValues.push(objects);
+
+        return TEScrambler.asURL(urls, keyValues);
+    }
+};
+
+// Helper methods that TimeEdit uses
+function isEmpty(str) {
+    return (!str || 0 === str.length);
+}
+
+function toString(string) {
+    if (isEmpty(string)) {
+        return '';
+    }
+    return '' + string;
+}
+
 /**
  * Original source for a TimeEdit module that scrambles urls
  * @Note Converted to node.js from browser javascript
@@ -150,34 +184,3 @@ var TEScrambler = (function () {
     };
     return my;
 }());
-
-// Helper methods that TimeEdit uses
-function isEmpty(str) {
-    return (!str || 0 === str.length);
-}
-
-function toString(string) {
-    if (isEmpty(string)) {
-        return '';
-    }
-    return '' + string;
-}
-
-// Export function that has default values for all options but objects
-module.exports = {
-    objectToUrl: function (objectIds, urls, keyValues) {
-        urls = urls || ["https://se.timeedit.net/web/chalmers/db1/public/ri.ics"];
-
-        // 1th of jan +- two years should be good enough
-        var currentYear = new Date().getFullYear();
-        var start = (currentYear - 2) + '0101';
-        var end = (currentYear + 2) + '0101';
-
-        keyValues = keyValues || ["h=t", "sid=3", "p=" + start + '%2C' + end, "ox=0", "types=0", "fe=0"];
-
-        var objects = 'objects=' + objectIds.join();
-        keyValues.push(objects);
-
-        return TEScrambler.asURL(urls, keyValues);
-    }
-};
