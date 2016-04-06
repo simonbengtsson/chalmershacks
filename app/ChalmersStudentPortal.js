@@ -39,24 +39,21 @@ module.exports = {
                 } else {
                     var $ = cheerio.load(html);
 
-                    var header = {};
-                    $('table.evenodd th').each(function (i, elem) {
-                        if (i > 0) {
-                            header[i - 1] = $(elem).text().trim();
-                        }
-                    });
+                    
 
                     var rows = [];
-                    $('table.evenodd tr').each(function (i, elem) {
-                        if (i > 1) {
-                            var row = {};
-                            $('td', elem).each(function (i, elem) {
-                                row[header[i]] = $(elem).html().trim().replace(/\s\s/g, "");
-                            });
+                    $('table.s4-wpTopTable table tr').each(function (rowIndex, elem) {
+                        var row = [];
+                        $('td', elem).each(function (cellIndex, elem) {
+                            row.push($(elem).text().trim());
+                        });
+                        
+                        // Don't add header and comment row
+                        if (row.length > 1) {
                             rows.push(row);
                         }
                     });
-
+ 
                     resolve(rows);
                 }
             });

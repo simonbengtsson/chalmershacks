@@ -8,13 +8,11 @@ module.exports = {
         }
         var proms = [];
         for (var i = 0; i < courses.length; i++) {
-            var code = courses[i]['Course'];
+            var code = courses[i][2];
             proms.push(getTimeEditObjectId(code));
         }
         return Promise.all(proms).then(function (objectIds) {
             var link = TEScramble.objectToUrl(objectIds, format);
-            return Promise.resolve(link);
-        }).then(function (link) {
             return new Promise(function (resolve, reject) {
                 request.get(link, function (error, response, ics) {
                     if (error) {

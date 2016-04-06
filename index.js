@@ -5,6 +5,8 @@ var TimeEdit = require('./app/TimeEdit.js');
 var Storage = require('./app/Storage.js');
 var env = require('./env.json');
 
+app.use(express.static(__dirname + '/public'));
+
 app.get('/schedule/obtain', function (req, res) {
     var cid = req.query.user;
     var passBase64 = req.query.password || '';
@@ -54,3 +56,4 @@ app.use(function(req, res) {
 });
 
 app.listen(env.port);
+console.log('Starting server at http://localhost:' + env.port);
