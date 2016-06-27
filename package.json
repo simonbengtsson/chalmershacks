@@ -4,8 +4,9 @@
   "description": "Personal chalmers calendar",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
-    "deploy": "rsync -a . root@flown.io:/var/www/chalmershacks.flown.io && ssh root@flown.io 'source ~/.nvm/nvm.sh && pm2 restart /var/www/chalmershacks.flown.io/index.js --name chalmershacks'"
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "deploy": "rsync -a -e 'ssh -p 3333' . root@flown.io:/var/www/chalmershacks.flown.io && ssh -p 3333 root@flown.io 'source ~/.nvm/nvm.sh && pm2 restart /var/www/chalmershacks.flown.io/index.js --name chalmershacks'"
   },
   "author": "Simon Bengtsson",
   "license": "MIT",
